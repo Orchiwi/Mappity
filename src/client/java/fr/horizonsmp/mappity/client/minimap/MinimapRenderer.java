@@ -54,10 +54,12 @@ public final class MinimapRenderer {
         // Refresh tile buffer
         tileBuffer.updateIfNeeded(level, centerX, centerZ, config.zoomScale(), config.shape());
 
-        // Background + tile blit
+        // Background + tile blit. blit() takes (x0, y0, x1, y1, u0, v0, u1, v1) —
+        // corner coordinates, not width/height. Passing (w, h) gives a degenerate
+        // rectangle and the texture never draws, only the background fill shows.
         gfx.fill(originX - 1, originY - 1, originX + size + 1, originY + size + 1, BORDER_COLOR);
         gfx.fill(originX, originY, originX + size, originY + size, BACKGROUND_COLOR);
-        gfx.blit(tileBuffer.textureId(), originX, originY, size, size, 0f, 0f, 1f, 1f);
+        gfx.blit(tileBuffer.textureId(), originX, originY, originX + size, originY + size, 0f, 0f, 1f, 1f);
 
         // Entity overlay
         if (config.showEntities() || config.showItems() || config.showOtherPlayers()) {

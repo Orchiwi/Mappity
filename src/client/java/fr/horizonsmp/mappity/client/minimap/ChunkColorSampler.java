@@ -9,7 +9,9 @@ import net.minecraft.world.level.material.MapColor;
 
 /**
  * Samples the top-of-world block color at integer (worldX, worldZ) using
- * the WORLD_SURFACE heightmap. Returns 0 (transparent) for unloaded chunks.
+ * the MOTION_BLOCKING heightmap (more reliably populated client-side than
+ * WORLD_SURFACE — it's the same heightmap used by client collision/AI).
+ * Returns 0 (transparent) for unloaded chunks or out-of-bounds Y.
  */
 public final class ChunkColorSampler {
 
@@ -26,8 +28,10 @@ public final class ChunkColorSampler {
         if (chunk == null) return TRANSPARENT;
         int localX = worldX & 15;
         int localZ = worldZ & 15;
-        int y = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, localX, localZ);
-        BlockPos pos = new BlockPos(worldX, y - 1, worldZ);
+        int y = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, localX, localZ);
+        int topY = y - 1;
+        if (topY <= level.getMinY()) return TRANSPARENT;
+        BlockPos pos = new BlockPos(worldX, topY, worldZ);
         BlockState state = chunk.getBlockState(pos);
         MapColor color = state.getMapColor(level, pos);
         if (color == MapColor.NONE) return TRANSPARENT;

@@ -50,6 +50,9 @@ public final class MinimapTileBuffer implements AutoCloseable {
         lastCenterZ = centerZ;
         lastScale = zoomScale;
         lastShape = shape;
+        // Never call texture.setPixels(image) here — DynamicTexture.setPixels closes
+        // the previous NativeImage before assigning the new one, which would close
+        // *our* image reference if we passed it.
         texture.upload();
     }
 
@@ -67,7 +70,25 @@ public final class MinimapTileBuffer implements AutoCloseable {
         }
     }
 
+    /** Set to true to draw a fixed 5-stripe diagnostic pattern in place of real sampling.
+     *  Used to disambiguate texture-pipeline bugs from sampling bugs when the minimap
+     *  shows a single color in-game. When DIAGNOSTIC_PATTERN is true the player position
+     *  has no effect on the rendered texture. */
+    private static final boolean DIAGNOSTIC_PATTERN = true;
+
+    private static final int[] DIAGNOSTIC_STRIPES = {
+        0xFFFF0000, // red    (top)
+        0xFFFFFF00, // yellow
+        0xFF00FF00, // green
+        0xFF00FFFF, // cyan
+        0xFFFF00FF  // magenta (bottom)
+    };
+
     private void resample(ClientLevel level, int centerX, int centerZ, float zoomScale, MinimapShape shape) {
+        if (DIAGNOSTIC_PATTERN) {
+            resampleDiagnostic(shape);
+            return;
+        }
         float half = SIZE / 2f;
         float radiusSq = half * half;
         for (int j = 0; j < SIZE; j++) {
@@ -76,7 +97,7 @@ public final class MinimapTileBuffer implements AutoCloseable {
                     float dx = (i + 0.5f) - half;
                     float dy = (j + 0.5f) - half;
                     if (dx * dx + dy * dy > radiusSq) {
-                        image.setPixelABGR(i, j, 0x00000000);
+                        image.setPixel(i, j, 0x00000000);
                         continue;
                     }
                 }
@@ -84,11 +105,35 @@ public final class MinimapTileBuffer implements AutoCloseable {
                 int worldZ = centerZ + Math.round((j - half) / zoomScale);
                 int argb = ChunkColorSampler.sampleArgb(level, worldX, worldZ);
                 if (argb == 0) {
-                    // Unloaded — dark gray, semi-opaque
-                    image.setPixelABGR(i, j, 0xFF1A1A1A);
+                    image.setPixel(i, j, 0xFF1A1A1A);
                 } else {
-                    image.setPixelABGR(i, j, ChunkColorSampler.argbToAbgr(argb));
+                    image.setPixel(i, j, argb);
                 }
+            }
+        }
+    }
+
+    /** Fills the buffer with 5 horizontal stripes regardless of player position.
+     *  If the in-game minimap shows these stripes the texture pipeline is correct
+     *  and the bug is in the chunk sampler; if it shows a single color, the bug
+     *  is in the texture upload/blit. */
+    private void resampleDiagnostic(MinimapShape shape) {
+        float half = SIZE / 2f;
+        float radiusSq = half * half;
+        int stripeHeight = SIZE / DIAGNOSTIC_STRIPES.length;
+        for (int j = 0; j < SIZE; j++) {
+            int stripe = Math.min(j / stripeHeight, DIAGNOSTIC_STRIPES.length - 1);
+            int color = DIAGNOSTIC_STRIPES[stripe];
+            for (int i = 0; i < SIZE; i++) {
+                if (shape == MinimapShape.CIRCLE) {
+                    float dx = (i + 0.5f) - half;
+                    float dy = (j + 0.5f) - half;
+                    if (dx * dx + dy * dy > radiusSq) {
+                        image.setPixel(i, j, 0x00000000);
+                        continue;
+                    }
+                }
+                image.setPixel(i, j, color);
             }
         }
     }

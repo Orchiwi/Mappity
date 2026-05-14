@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "mappity",
+  "version": "${version}",
+  "name": "Mappity",
+  "description": "A client-only minimap and full-screen world map mod for Fabric. Configurable HUD minimap (square or circle, four corners, zoom), entity overlay, multi-dimension waypoints, and explored-world map tiles.",
+  "authors": [
+    "Orchiwi"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Orchiwi/Mappity",
+    "sources": "https://github.com/Orchiwi/Mappity",
+    "issues": "https://github.com/Orchiwi/Mappity/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "fr.horizonsmp.mappity.client.MappityClient"
+    ],
+    "main": [
+      "fr.horizonsmp.mappity.Mappity"
+    ]
+  },
+  "mixins": [
+    "mappity.mixins.json",
+    {
+      "config": "mappity.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "suggests": {
+    "modmenu": ">=15.0.0"
+  }
+}

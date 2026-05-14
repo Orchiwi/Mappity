@@ -1,3 +1,59 @@
 {
-  "key.category.mappity.general": "Mappity"
+  "key.category.mappity.general": "Mappity",
+
+  "key.mappity.waypoint.add": "Ajouter un waypoint ici",
+  "key.mappity.waypoint.manager": "Ouvrir le gestionnaire de waypoints",
+  "key.mappity.settings": "Ouvrir les options de la minimap",
+  "key.mappity.zoom.in": "Zoomer",
+  "key.mappity.zoom.out": "Dézoomer",
+  "key.mappity.shape.cycle": "Changer la forme de la minimap",
+  "key.mappity.corner.cycle": "Déplacer la minimap",
+  "key.mappity.toggle": "Activer / désactiver la minimap",
+
+  "mappity.shape.square": "Carrée",
+  "mappity.shape.circle": "Ronde",
+
+  "mappity.corner.top_left": "Haut gauche",
+  "mappity.corner.top_right": "Haut droit",
+  "mappity.corner.bottom_left": "Bas gauche",
+  "mappity.corner.bottom_right": "Bas droit",
+
+  "mappity.settings.title": "Options Mappity",
+  "mappity.settings.shape": "Forme : %s",
+  "mappity.settings.corner": "Position : %s",
+  "mappity.settings.zoom": "Zoom : %sx",
+  "mappity.settings.show_entities": "Afficher les entités : %s",
+  "mappity.settings.show_items": "Afficher les objets au sol : %s",
+  "mappity.settings.show_other_players": "Afficher les autres joueurs : %s",
+  "mappity.settings.show_waypoints": "Afficher les waypoints : %s",
+  "mappity.settings.minimap_enabled": "Minimap activée : %s",
+  "mappity.settings.done": "Terminé",
+
+  "mappity.waypoint.manager.title": "Waypoints (%s)",
+  "mappity.waypoint.manager.add": "Ajouter un waypoint",
+  "mappity.waypoint.manager.edit": "Modifier",
+  "mappity.waypoint.manager.delete": "Supprimer",
+  "mappity.waypoint.manager.toggle": "Visible : %s",
+  "mappity.waypoint.manager.dimension": "Dimension : %s",
+  "mappity.waypoint.manager.done": "Terminé",
+  "mappity.waypoint.manager.empty": "Aucun waypoint dans cette dimension.",
+
+  "mappity.waypoint.edit.title": "Modifier le waypoint",
+  "mappity.waypoint.edit.name": "Nom",
+  "mappity.waypoint.edit.x": "X",
+  "mappity.waypoint.edit.y": "Y",
+  "mappity.waypoint.edit.z": "Z",
+  "mappity.waypoint.edit.color": "Couleur",
+  "mappity.waypoint.edit.save": "Enregistrer",
+  "mappity.waypoint.edit.cancel": "Annuler",
+
+  "mappity.toast.waypoint.added": "Waypoint ajouté : %s",
+  "mappity.toast.waypoint.deleted": "Waypoint supprimé : %s",
+  "mappity.toast.minimap.toggled": "Minimap : %s",
+  "mappity.toast.shape.changed": "Forme : %s",
+  "mappity.toast.corner.changed": "Position : %s",
+  "mappity.toast.zoom.changed": "Zoom : %sx",
+
+  "mappity.common.on": "activée",
+  "mappity.common.off": "désactivée"
 }

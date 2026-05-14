@@ -4,7 +4,7 @@ A client-only Fabric mod that adds a configurable minimap and a full-screen
 world map to Minecraft. Works on any server (vanilla or modded) because all
 rendering and storage is performed client-side.
 
-## Features (v1.0.0-alpha.1)
+## Features (v0.1.0-alpha.1)
 
 - **HUD minimap** with two shapes (square, circle) and four anchor corners
   (top-left, top-right, bottom-left, bottom-right).
@@ -21,7 +21,7 @@ rendering and storage is performed client-side.
 - **Multi-dimension awareness**: waypoints are scoped to the dimension they
   were created in.
 
-## Coming next (v1.0.0-alpha.2)
+## Coming next (v0.1.0-alpha.2)
 
 - Full-screen world map showing every chunk the player has explored,
   persisted under `~/.minecraft/mappity/<world>/<dimension>/` as PNG tiles.
